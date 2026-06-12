@@ -1,5 +1,4 @@
 // source: public-data-v1（record 层，2026-06-11 修订版，闸门一用户确认 6/6）
-// 本文件由 checks/build_data.py 从 record 正本逐字生成；手改无效，改了重跑生成器。
 // reserved_clouds：schema 扩展位（Q12 裁定保留，供日后补云）。
 const RECORD_GOAL = "观众先看见六团密集词痕像颜料一样沉在灰绿海面上，点击一朵云后，才看见人、AI、材料、机制和制度怎样在长期共作中互相塑形。";
 const CLOUDS = [
