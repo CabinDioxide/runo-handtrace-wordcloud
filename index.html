@@ -13,11 +13,61 @@
     font-family: "Songti SC", "Noto Serif SC", serif;
     padding: 22px; min-height: 100dvh;
     touch-action: manipulation; /* 防双击缩放（红队二 #3） */
-    display: flex; align-items: center; justify-content: center;
+    display: block;
   }
 
+  .page {
+    width: min(1240px, 100%);
+    margin: 0 auto;
+  }
+
+  .topbar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 12px;
+  }
+
+  .lang-switch {
+    display: inline-flex;
+    gap: 4px;
+    padding: 4px;
+    border: 1px solid rgba(238,230,208,.28);
+    background: rgba(24,19,14,.78);
+    box-shadow: 0 4px 18px rgba(0,0,0,.28);
+  }
+
+  .lang-switch button {
+    appearance: none;
+    border: 0;
+    min-width: 58px;
+    min-height: 32px;
+    padding: 0 10px;
+    color: rgba(238,230,208,.72);
+    background: transparent;
+    font: 700 12px/1 ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    cursor: pointer;
+  }
+
+  body.lang-zh #langZh,
+  body.lang-en #langEn {
+    color: #1c1711;
+    background: #d8ccb0;
+  }
+
+  .text-en { display: none; }
+  body.lang-en .text-zh { display: none !important; }
+  body.lang-en .text-en { display: inline !important; }
+  body.lang-en div.text-en,
+  body.lang-en p.text-en,
+  body.lang-en section.text-en { display: block !important; }
+  body.lang-en .text-en.flex { display: flex !important; }
+  body.lang-zh .text-zh { display: inline; }
+  body.lang-zh div.text-zh,
+  body.lang-zh p.text-zh,
+  body.lang-zh section.text-zh { display: block; }
+
   .chart {
-    position: relative; width: min(1240px, 100%);
+    position: relative; width: 100%;
     aspect-ratio: 3 / 2;
     background: url(basemap.png) center / cover no-repeat; /* v1.1：codex 底图（2026-06-12 到货，验收四点过） */
     border: 1px solid #0e0b08;
@@ -56,7 +106,7 @@
     font-family: "Didot", "Songti SC", serif; mix-blend-mode: multiply; } /* v2：红墨直接书于岛面 */
   .island .iname { position: absolute; left: 27%; top: 16.5%; z-index: 4; font-size: 12.5px; color: rgba(58,44,28,.92);
     letter-spacing: 1px; white-space: nowrap; mix-blend-mode: multiply; }
-  .island .iname .en { font-size: 9.5px; font-style: italic; color: rgba(94,78,56,.85); margin-left: 5px; }
+  .island .iname .en { font-size: 9.5px; font-style: italic; color: rgba(94,78,56,.85); }
   /* 词痕：单档字号 + 无规律微扰（红队二 #5：权重未到不分层） */
   .island .w { /* v2.1（R5-②）：墨书清晰版——multiply 入纸但去洇边、稳转角 */
     position: absolute; white-space: nowrap; font-family: "Kaiti SC", cursive;
@@ -64,10 +114,6 @@
     mix-blend-mode: multiply;
     user-select: none; z-index: 3;
     transition: color 1s, opacity 1s;
-  }
-  .island .w .we { /* R5-③：英文译注（概念图同款中英对） */
-    font-family: "Songti SC", Georgia, serif; font-style: italic;
-    font-size: .62em; color: rgba(78,62,42,.85); margin-left: 3px; letter-spacing: .3px;
   }
   .island .rtick { position: absolute; color: rgba(162,50,34,.6); font-size: 9px; z-index: 3; font-family: monospace; user-select: none; }
 
@@ -136,15 +182,6 @@
     background: currentColor; opacity: .5; filter: url(#inkLine); transform: rotate(-1deg);
   }
   .rel-phrase .tag { display: block; font-size: 8.5px; color: rgba(110,92,66,.9); font-family: monospace; }
-  .rel-phrase .enrel {
-    display: block;
-    margin-top: 1px;
-    font-family: "Songti SC", Georgia, serif;
-    font-size: 9px;
-    font-style: italic;
-    color: rgba(78,62,42,.88);
-    letter-spacing: .2px;
-  }
   .rel-phrase.ph { left: 2%; top: 30%; }
   .rel-phrase.pa { right: 2%; bottom: 22%; color: rgba(28,58,74,.95); transform: rotate(1deg); }
   .seds { position: absolute; left: 6%; right: 2%; bottom: -7%; display: flex; flex-wrap: wrap; gap: 4px 16px; opacity: 0; transition: opacity 1.4s 3.6s; } /* 沉积：最后落定 */
@@ -157,14 +194,6 @@
     background: rgba(242,235,212,.7); border-radius: 50% 50% 55% 45% / 62% 50% 60% 40%; filter: blur(6px); }
   .sed::after { content: ""; position: absolute; left: 0; right: 4%; bottom: -2px; height: 2px;
     background: rgba(40,82,64,.7); filter: url(#inkLine); transform: rotate(-.6deg); }
-  .sed .seden {
-    display: block;
-    margin-top: 1px;
-    font-family: "Songti SC", Georgia, serif;
-    font-size: 8.5px;
-    font-style: italic;
-    color: rgba(78,62,42,.86);
-  }
   /* 第三击 st3：航线（JS 画；虚线慢爬=活水流） */
   @keyframes dashcrawl { to { stroke-dashoffset: -260; } }
   svg.currents path.flow { animation: dashcrawl 44s linear infinite; }
@@ -260,6 +289,47 @@
   .fold-panel .en-line { color: #8a7e6c; font-size: 10.5px; font-style: italic; }
   .fold-panel .sig { margin-top: 8px; font-size: 10.5px; color: #8a7e6c; }
 
+  .exhibition-label {
+    margin: 18px 0 0;
+    padding: 18px 20px 20px;
+    border: 1px solid rgba(238,230,208,.18);
+    background: rgba(24,19,14,.68);
+    color: #e8dcc2;
+    box-shadow: 0 6px 30px rgba(0,0,0,.22);
+  }
+
+  .exhibition-label h1 {
+    margin: 0 0 7px;
+    font-size: clamp(24px, 3vw, 38px);
+    line-height: 1.15;
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+
+  .exhibition-label .meta {
+    margin: 0 0 14px;
+    color: #b8a98a;
+    font: 700 12px/1.5 ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  .exhibition-label p {
+    max-width: 860px;
+    margin: 0 0 12px;
+    color: #d8ccb0;
+    font-size: 15px;
+    line-height: 1.78;
+  }
+
+  .exhibition-label .boundary {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(238,230,208,.16);
+    color: #b8a98a;
+    font-size: 13px;
+  }
+
   /* ============ 移动端：纵向长卷（≤700px） ============ */
   @media (max-width: 700px) {
     body { padding: 10px; display: block; }
@@ -282,7 +352,14 @@
   }
 </style>
 </head>
-<body>
+<body class="lang-zh">
+<main class="page">
+  <div class="topbar">
+    <div class="lang-switch" aria-label="Language">
+      <button type="button" id="langZh" aria-pressed="true">中文</button>
+      <button type="button" id="langEn" aria-pressed="false">EN</button>
+    </div>
+  </div>
 <div class="chart" id="chart">
   <svg width="0" height="0" aria-hidden="true">
     <defs>
@@ -304,20 +381,20 @@
 
   <aside class="margin-col">
     <div class="redchip"></div>
-    <div class="mblock"><b>EXHIBITION</b>共塑显影<br>CO-SHAPING, DEVELOPING</div>
-    <div class="mblock"><b>PROJECT</b>手痕词云<br>Handtrace Word Cloud</div>
-    <div class="mblock"><b>MEDIUM</b>公开安全词痕 · 单页<br>public-safe traces</div>
-    <div class="mblock"><b>AUTHOR</b>Runaway Checkpoint<br>×（共作的另一方）</div>
-    <div class="mblock"><b>YEAR</b>2026</div>
-    <div class="handnote">六团颜料沉在海面上；<br>关系在显影液里。</div>
-    <div class="seal">共塑<br>显影</div>
+    <div class="mblock"><b><span class="text-zh">展览</span><span class="text-en">EXHIBITION</span></b><span class="text-zh">共塑显影</span><span class="text-en">Co-Shaping, Developing</span></div>
+    <div class="mblock"><b><span class="text-zh">项目</span><span class="text-en">PROJECT</span></b><span class="text-zh">手痕词云</span><span class="text-en">Handtrace Word Cloud</span></div>
+    <div class="mblock"><b><span class="text-zh">媒介</span><span class="text-en">MEDIUM</span></b><span class="text-zh">公开安全词痕 · 单页</span><span class="text-en">Public-Safe Traces · Single Page</span></div>
+    <div class="mblock"><b><span class="text-zh">作者</span><span class="text-en">AUTHOR</span></b><span class="text-zh">Runaway Checkpoint<br>×（共作的另一方）</span><span class="text-en">Runaway Checkpoint<br>× collaborator</span></div>
+    <div class="mblock"><b><span class="text-zh">年份</span><span class="text-en">YEAR</span></b>2026</div>
+    <div class="handnote"><span class="text-zh">六团颜料沉在海面上；<br>关系在显影液里。</span><span class="text-en">Six pigments settle at sea;<br>relations develop in solution.</span></div>
+    <div class="seal"><span class="text-zh">共塑<br>显影</span><span class="text-en">co<br>shape</span></div>
   </aside>
 
   <div class="titleblock">
-    <div class="t-en">Handtrace Word Cloud — Co-Shaping, Developing</div>
-    <div class="t-zh">手痕词云：共塑显影</div>
-    <div class="dek">六团词痕，是一个人与 AI 长期共作沉积下的颜料；这里没有任何对话原文，只有被反复打磨后留下的词与关系。</div>
-    <div class="dek dek-en">Word-traces settled like pigment from a long human–AI collaboration; no original conversations remain here, only the words and relations that survived the rework.</div>
+    <div class="t-zh text-zh">手痕词云：共塑显影</div>
+    <div class="t-en text-en">Handtrace Word Cloud — Co-Shaping, Developing</div>
+    <div class="dek text-zh">六团词痕，是一个人与 AI 长期共作沉积下的颜料；这里没有任何对话原文，只有被反复打磨后留下的词与关系。</div>
+    <div class="dek dek-en text-en">Word-traces settled like pigment from a long human-AI collaboration. No original conversations remain here, only the words and relations that survived the rework.</div>
   </div>
 
   <svg class="compass" viewBox="0 0 62 62" aria-hidden="true">
@@ -330,19 +407,25 @@
 
   <div class="stage" id="stage"></div>
 
-  <div class="taped">显影未定稿。<br>有些关系仍在海里。 ── 2026</div>
-  <div class="atag">ARCHIVE TAG · HWC-COSHAPING-2026 · PUBLIC-SAFE TRACES · SIX CLOUDS</div>
+  <div class="taped"><span class="text-zh">显影未定稿。<br>有些关系仍在海里。 ── 2026</span><span class="text-en">Developing is not final.<br>Some relations remain at sea. - 2026</span></div>
+  <div class="atag"><span class="text-zh">档案标记 · HWC-COSHAPING-2026 · 公开安全词痕 · 六团云</span><span class="text-en">ARCHIVE TAG · HWC-COSHAPING-2026 · PUBLIC-SAFE TRACES · SIX CLOUDS</span></div>
 
-  <div class="fold" id="fold">注</div>
+  <div class="fold" id="fold"><span class="text-zh">注</span><span class="text-en">i</span></div>
   <div class="fold-panel" id="foldPanel">
-    <strong>边界与方法 · Boundary &amp; Method</strong><br><br>
-    你看到的全部词痕是抽象后的公开样本，没有任何对话原文、标题或私人词表；六团词云的去留经材料当事人逐云确认。<br>
-    <span class="en-line">All traces are abstracted, public-safe samples. No original conversations, titles, or private vocabularies appear here; each cloud was confirmed by the person whose materials they distill.</span><br><br>
-    被红线压住的词（继续 / 好 / 搜索……）是平台机制留下的表面磨损，不参与解释。显影会自己停在未完成处——有些关系仍未定稿。<br><br>
-    <span class="en-line">Words pressed under red marks, such as continue, okay, and search, are surface wear left by platform mechanisms. They do not take part in the interpretation. The developing process stops before completion: some relations remain unsettled.</span><br><br>
-    一切显影只发生在这块屏幕上；离开或刷新，纸面回到原样。<br>
-    <span class="en-line">All developing happens only on this screen. Leave or refresh, and the paper returns to its initial state.</span>
-    <div class="sig">方法与误读风险：Runaway Checkpoint（鹿诺）· 本注释是作品里唯一允许作者出现的位置</div>
+    <div class="text-zh">
+      <strong>边界与方法</strong><br><br>
+      你看到的全部词痕是抽象后的公开样本，没有任何对话原文、标题或私人词表；六团词云的去留经材料当事人逐云确认。<br><br>
+      被红线压住的词（继续 / 好 / 搜索……）是平台机制留下的表面磨损，不参与解释。显影会自己停在未完成处：有些关系仍未定稿。<br><br>
+      一切显影只发生在这块屏幕上；离开或刷新，纸面回到原样。
+      <div class="sig">方法与误读风险：Runaway Checkpoint（鹿诺）· 本注释是作品里唯一允许作者出现的位置</div>
+    </div>
+    <div class="text-en">
+      <strong>Boundary &amp; Method</strong><br><br>
+      All traces are abstracted, public-safe samples. No original conversations, titles, or private vocabularies appear here; each cloud was confirmed by the person whose materials they distill.<br><br>
+      Words pressed under red marks, such as continue, okay, and search, are surface wear left by platform mechanisms. They do not take part in the interpretation. The developing process stops before completion: some relations remain unsettled.<br><br>
+      All developing happens only on this screen. Leave or refresh, and the paper returns to its initial state.
+      <div class="sig">Method and misreading risk: Runaway Checkpoint (Runo). This note is the only place where the author is allowed to appear inside the work.</div>
+    </div>
   </div>
 
   <div class="redband"></div>
@@ -352,6 +435,24 @@
     <rect width="100%" height="100%" filter="url(#paperGrain)"/>
   </svg>
 </div>
+
+  <section class="exhibition-label" aria-labelledby="labelTitle">
+    <div class="text-zh">
+      <h1 id="labelTitle">展签：手痕词云：共塑显影</h1>
+      <div class="meta">Runaway Checkpoint / 鹿诺 · 交互网页作品 · 2026</div>
+      <p>《手痕词云：共塑显影》不是一张用户画像，也不是一次对私人对话的展示。它把长期 AI 共作中反复出现的判断、边界、材料、制度和情感词痕抽象成六团公开安全的云。观众点击一朵云，词痕先显影，随后平台机制的表面磨损被红线压回纸面，人与 AI 之间的互相塑形关系才逐渐浮出。</p>
+      <p>这件作品关心的不是“AI 读懂了谁”，而是长期共作怎样改变双方的提问、标准和行动方式。词云里的每条回流线都提醒观众：一次判断从来不只停在一个主题里，它会流向历史尺度、制度设计、亲密关系、身体叙事和技术政治。</p>
+      <p class="boundary">公开边界：作品不包含对话原文、标题、私人词表、日期节奏或可反向识别细节。所有显影只发生在本次观看中，刷新即复原。</p>
+    </div>
+    <div class="text-en">
+      <h1>Label: Handtrace Word Cloud — Co-Shaping, Developing</h1>
+      <div class="meta">Runaway Checkpoint / Runo · interactive web artwork · 2026</div>
+      <p><em>Handtrace Word Cloud — Co-Shaping, Developing</em> is not a user portrait, and it does not display private conversations. It abstracts recurring traces of judgment, boundary-making, material, institution, and intimacy from a long human-AI collaboration into six public-safe clouds. When viewers click a cloud, word traces appear first; then surface wear from platform mechanisms is pressed back onto the paper by red marks, and the mutual shaping between human and AI begins to emerge.</p>
+      <p>The work is not about whether an AI has “understood” someone. It asks how long collaboration changes the questions, standards, and actions of both sides. Each return line between clouds reminds viewers that a judgment never remains inside one topic: it flows toward historical scale, institutional design, intimacy, embodied narrative, and techno-politics.</p>
+      <p class="boundary">Boundary: the work contains no original conversations, titles, private vocabularies, date rhythms, or reversible identifying details. All developing happens only during the current viewing session; refresh the page and the paper returns to its initial state.</p>
+    </div>
+  </section>
+</main>
 
 <script src="data.js"></script>
 <script src="gloss.js"></script>
@@ -371,6 +472,7 @@ const flowsSvg = document.getElementById("currents");
 const islands = {};
 const routedSet = new Set();
 let lastClickAt = 0;
+let currentLang = "zh";
 
 const PHRASE_EN = {
   "打回、补证、重写和追问": "pushback, corroboration, rewriting, and inquiry",
@@ -399,13 +501,25 @@ const PHRASE_EN = {
   "一手原文优先": "primary texts first",
   "历史类比必须保留差异": "historical analogies must preserve differences"
 };
-function bilingual(text) {
-  const en = PHRASE_EN[text];
-  return en ? `${text}<span class="enrel">${en}</span>` : text;
+const UI_TITLE = {
+  zh: "手痕词云：共塑显影",
+  en: "Handtrace Word Cloud — Co-Shaping, Developing"
+};
+function translated(text) {
+  return currentLang === "en" ? (PHRASE_EN[text] || GLOSS[text] || text) : text;
 }
-function bilingualSed(text) {
-  const en = PHRASE_EN[text];
-  return en ? `${text}<span class="seden">${en}</span>` : text;
+function applyLanguage(lang) {
+  currentLang = lang;
+  document.body.classList.toggle("lang-zh", lang === "zh");
+  document.body.classList.toggle("lang-en", lang === "en");
+  document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+  document.title = UI_TITLE[lang];
+  document.getElementById("langZh").setAttribute("aria-pressed", String(lang === "zh"));
+  document.getElementById("langEn").setAttribute("aria-pressed", String(lang === "en"));
+  document.querySelectorAll("[data-zh][data-en]").forEach((el) => {
+    el.textContent = lang === "zh" ? el.dataset.zh : el.dataset.en;
+  });
+  fixNoiseOverflow();
 }
 
 CLOUDS.forEach((c, ci) => {
@@ -418,12 +532,12 @@ CLOUDS.forEach((c, ci) => {
   el.style.width = L.w + "%"; el.style.height = L.h + "%";
   el.innerHTML = `<div class="mass"></div>
     <div class="inum">${c.n}</div>
-    <div class="iname">${c.zh}<span class="en">${c.en}</span></div>
+    <div class="iname" data-zh="${c.zh}" data-en="${c.en}">${c.zh}</div>
     <div class="relwrap">
       <div class="rel-arc"></div>
-      <div class="rel-phrase ph"><span class="tag">人 → AI / human → AI</span>${bilingual(c.relHuman)}</div>
-      <div class="rel-phrase pa"><span class="tag">AI → 人 / AI → human</span>${bilingual(c.relAI)}</div>
-      <div class="seds">${c.seds.map((sd,si) => `<span class="sed" style="--sr:${((si*47+c.n*13)%5)-2.5}deg">${bilingualSed(sd)}</span>`).join("")}</div>
+      <div class="rel-phrase ph"><span class="tag" data-zh="人 → AI" data-en="human → AI">人 → AI</span><span data-zh="${c.relHuman}" data-en="${PHRASE_EN[c.relHuman] || c.relHuman}">${c.relHuman}</span></div>
+      <div class="rel-phrase pa"><span class="tag" data-zh="AI → 人" data-en="AI → human">AI → 人</span><span data-zh="${c.relAI}" data-en="${PHRASE_EN[c.relAI] || c.relAI}">${c.relAI}</span></div>
+      <div class="seds">${c.seds.map((sd,si) => `<span class="sed" data-zh="${sd}" data-en="${PHRASE_EN[sd] || sd}" style="--sr:${((si*47+c.n*13)%5)-2.5}deg">${sd}</span>`).join("")}</div>
     </div>`;
   /* 簇生布词（中英对）；圈点词=确定性选 3 个内容词 */
   const NUCLEI = [[38, 36], [60, 52], [46, 64]];
@@ -431,9 +545,9 @@ CLOUDS.forEach((c, ci) => {
   const placeWord = (txt, k, isNoise) => {
     const w = document.createElement("span");
     w.className = "w" + (isNoise ? " noise" : "");
+    w.dataset.zh = txt;
+    w.dataset.en = (typeof GLOSS !== "undefined" && GLOSS[txt]) ? GLOSS[txt] : txt;
     w.textContent = txt;
-    const g = (typeof GLOSS !== "undefined") && GLOSS[txt];
-    if (g) { const e = document.createElement("i"); e.className = "we"; e.textContent = g; w.appendChild(e); }
     const h1 = (k * 137 + ci * 53) % 101 / 101, h2 = (k * 71 + ci * 29) % 97 / 97, h3 = (k * 53 + ci * 13) % 89 / 89;
     if (isNoise) { /* R7：带内收 0.48–0.60r，划痕不出岛 */
       const ang = (k * 73 + ci * 41) % 360 * Math.PI / 180;
@@ -660,6 +774,9 @@ document.getElementById("fold").addEventListener("click", (ev) => {
   ev.stopPropagation();
   document.getElementById("foldPanel").classList.toggle("open");
 });
+document.getElementById("langZh").addEventListener("click", () => applyLanguage("zh"));
+document.getElementById("langEn").addEventListener("click", () => applyLanguage("en"));
+applyLanguage("zh");
 </script>
 </body>
 </html>

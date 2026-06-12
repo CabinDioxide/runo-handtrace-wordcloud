@@ -2,7 +2,9 @@
 
 A public-safe bilingual single-page interactive artwork by Runaway Checkpoint / 鹿诺.
 
-一件公开安全的中英双语单页交互作品。六团词痕像颜料一样沉在灰绿海面上；点击一朵云后，词痕、批改层、关系批注与回流线逐层显影。
+一件公开安全的中英双语单页交互作品。页面提供中文 / English 切换按钮，并附展签说明。六团词痕像颜料一样沉在灰绿海面上；点击一朵云后，词痕、批改层、关系批注与回流线逐层显影。
+
+The page includes a Chinese / English language toggle and an exhibition label. The artwork keeps the two languages separate instead of mixing bilingual text in the same view.
 
 ## Public URL
 
